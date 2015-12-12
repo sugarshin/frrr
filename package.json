@@ -1,0 +1,25 @@
+{
+  "name": "frrr",
+  "description": "Frontend Revolution on Ruby on Rails",
+  "private": true,
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sugarshin/frrr.git"
+  },
+  "author": "sugarshin",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-cached": "^1.1.0",
+    "gulp-if": "^2.0.0",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-sprockets": "github:sugarshin/gulp-sprockets",
+    "run-sequence": "^1.1.5"
+  }
+}
