@@ -3,10 +3,11 @@
   "description": "Frontend Revolution on Ruby on Rails",
   "private": true,
   "directories": {
-    "start": "rials s && browser-sync start --proxy localhost:3000 --files 'app/assets/stylesheets/**/*.css','app/views/**/*.html.*','app/assets/javascripts/**/*.js'",
     "test": "test"
   },
   "scripts": {
+    "serve": "browser-sync start --proxy localhost:3000 --files 'app/assets/stylesheets/**/*.scss','app/views/**/*.html.*','app/assets/javascripts/**/*.ts'",
+    "start": "npm run serve & gulp",
     "build": "gulp build"
   },
   "repository": {
@@ -16,20 +17,28 @@
   "author": "sugarshin",
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer": "^6.1.2",
     "browser-sync": "^2.10.0",
+    "css-mqpacker": "^4.0.0",
     "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-cached": "^1.1.0",
     "gulp-if": "^2.0.0",
     "gulp-load-plugins": "^1.1.0",
+    "gulp-postcss": "^6.0.1",
     "gulp-sprockets": "github:sugarshin/gulp-sprockets",
     "gulp-util": "^3.0.7",
+    "postcss-nested": "^1.0.0",
+    "postcss-scss": "^0.1.3",
     "run-sequence": "^1.1.5",
     "ts-loader": "^0.7.2",
     "typescript": "^1.7.3",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0",
+    "webpack-stream": "^3.0.1"
   },
   "dependencies": {
+    "lodash": "^3.10.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "redux": "^3.0.5",

@@ -7,3 +7,4 @@
 //     return new Circle(0, 0, 1);
 //   }
 // }
+console.log('test');
