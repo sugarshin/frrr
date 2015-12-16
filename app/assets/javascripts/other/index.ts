@@ -1,6 +1,6 @@
 // import * as _ from 'lodash';
 
-import { createStore, applyMiddleware, compose } from 'redux';
+// import { createStore, applyMiddleware, compose } from 'redux';
 
 const SOME_ACTION = 'SOME_ACTION';
 
@@ -12,5 +12,5 @@ function reducer(initialState = {}, action) {
   }
 }
 
-const store = createStore(reducer, {});
+// const store = createStore(reducer, {});
 console.log('test');
