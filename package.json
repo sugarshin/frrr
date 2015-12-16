@@ -8,7 +8,7 @@
   "scripts": {
     "serve": "browser-sync start --proxy localhost:3000 --files 'app/assets/stylesheets/**/*.scss','app/views/**/*.html.*','app/assets/javascripts/**/*.ts'",
     "start": "gulp watch",
-    "build": "gulp build"
+    "build": "NODE_ENV=release gulp build"
   },
   "repository": {
     "type": "git",
@@ -36,12 +36,14 @@
     "gulp-postcss": "^6.0.1",
     "gulp-sprockets": "github:sugarshin/gulp-sprockets",
     "gulp-util": "^3.0.7",
+    "lodash": "^3.10.1",
     "postcss-nested": "^1.0.0",
     "postcss-scss": "^0.1.3",
     "run-sequence": "^1.1.5",
     "ts-loader": "^0.7.2",
     "typescript": "^1.7.5",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.9",
+    "webpack-stream": "^3.1.0"
   },
   "dependencies": {
     "lodash": "^3.10.1",

@@ -30,18 +30,18 @@ module.exports = {
         loader: 'babel',
         query: {
           presets: ['react', 'es2015', 'stage-2'],
-          plugins: [['typecheck', {
-            disable: {
-              production: true,
-              release: true
-            }
-          }], 'syntax-flow', 'transform-flow-strip-types']
+          plugins: [
+            ['typecheck', {
+              disable: {
+                production: true,
+                release: true
+              }
+            }],
+            'syntax-flow',
+            'transform-flow-strip-types'
+          ]
         }
       }
     ]
-  },
-  // devtool: 'eval',
-  externals: {
-    react: 'React'
   }
 };

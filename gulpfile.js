@@ -25,56 +25,28 @@ const release = process.env.NODE_ENV === 'release';
 
 $.sprockets.declare(assetsPaths, destPath);
 
+gulp.task('clean', () => del(destPath));
+
 gulp.task('build:image', () => {
   return gulp.src([`${assetsPaths.app}/images/**/*.{jpg,gif,png}`])
     .pipe($.if(release, $.sprockets.precompile()))
     .pipe(gulp.dest(destPath));
 });
 
-// gulp.task('build:js', () => {
-//   return gulp.src([`${assetsPaths.app}/javascripts/*.js`])
-//     .pipe($.sprockets.js())
-//     .pipe($.if(release, $.sprockets.precompile()))
-//     .pipe(gulp.dest(destPath));
-// });
-
-// gulp.task('build:css', () => {
-//   return gulp.src([`${assetsPaths.app}/stylesheets/*.css`])
-//     .pipe($.cached('css'))
-//     .pipe($.sprockets.css({ precompile: release }))
-//     .pipe($.if(release, $.sprockets.precompile()))
-//     .pipe(gulp.dest(destPath));
-// });
-
-gulp.task('clean', () => del(destPath));
-
-gulp.task('build', () => {
-  runSequence('build:image', ['build:scss', 'webpack:build']);
+gulp.task('build:js', () => {
+  return gulp.src([`${destPath}/*.js`])
+    .pipe($.sprockets.precompile())
+    .pipe(gulp.dest(destPath));
 });
 
-
 gulp.task('build:scss', () => {
-  return gulp.src([`${assetsPaths.app}/stylesheets/roots/*.scss`])
+  return gulp.src([`${assetsPaths.app}/stylesheets/entries/*.scss`])
     .pipe($.cached('scss'))
     .pipe($.postcss(postcssProcessors, { syntax }))
     .pipe($.sprockets.scss({ precompile: release }))
     .pipe($.if(release, $.sprockets.precompile()))
     .pipe(gulp.dest(destPath))
 });
-// gulp.task('webpack-dev-server', cb => {
-//   const devConfig = Object.create(webpackConfig);
-//   devConfig.devtool = 'eval';
-//   devConfig.debug = true;
-//   devConfig.watch = true;
-//
-//   new WebpackDevServer(webpack(devConfig), {
-//     publicPath: destPath,
-//     stats: { colors: true }
-//   }).listen(8080, 'localhost', err => {
-//     if (err) { throw new gutil.PluginError('webpack-dev-server', err); }
-//     gutil.log('[webpack-dev-server]');
-//   });
-// });
 
 gulp.task('server', () => {
   browserSync({
@@ -84,19 +56,11 @@ gulp.task('server', () => {
       `${destPath}/*.css`
     ],
     proxy: {
-      target: 'localhost:3000',
-      middleware(req, res, next) {
-        next();
-      }
+      target: 'localhost:3000'
     },
     ui: false,
     notify: false,
-    ghostMode: false//,
-    // startPath: '/index.html',
-    // server: {
-    //   baseDir: 'dest',
-    //   directory: true
-    // }
+    ghostMode: false
   });
 });
 
@@ -111,6 +75,24 @@ gulp.task('webpack:dev', cb => {
     cb();
   });
 });
+
+// gulp.task('webpack:build', cb => {
+//   const finalWebpackConfig = Object.assign({}, webpackConfig, {
+//     plugins: [
+//       new webpack.optimize.UglifyJsPlugin({
+//         // output: {
+//         //   comments: require('uglify-save-license')
+//         // },
+//         compress: { warnings: false }
+//       })
+//     ]
+//   });
+//   return gulp.src(_.values(finalWebpackConfig.entry))
+//     .pipe(webpackStream(finalWebpackConfig, webpack))
+//     // .pipe($.sprockets.js({ precompile: release }))
+//     // .pipe($.sprockets.precompile())
+//     .pipe(gulp.dest(destPath));
+// });
 
 gulp.task('webpack:build', cb => {
   const finalWebpackConfig = Object.assign({}, webpackConfig, {
@@ -145,17 +127,8 @@ gulp.task('watch', ['default', 'server'], () => {
     .on('change', ev => {
       console.log(`File ${ev.path} was ${ev.type}, running build task...`);
     });
-  // gulp.watch(['dest/assets/js/*.js']).on('change', browserSync.reload);
 });
 
-
-// gulp.task('watch', ['default'], () => {
-//   gulp.watch([assetsPaths.app + '/javascripts/**/*.coffee'], ['build:js'])
-//     .on('change', (e) => {
-//       console.log(`File ${e.path} was ${e.type}, running build task...`);
-//     });
-//   gulp.watch([assetsPaths.app + '/stylesheets/**/*.(css|scss|sass)'], ['build:css'])
-//     .on('change', (e) => {
-//       console.log(`File ${e.path} was ${e.type}, running build task...`);
-//     });
-// });
+gulp.task('build', () => {
+  runSequence('clean', ['build:image', 'build:scss', 'webpack:build'], 'build:js');
+});
